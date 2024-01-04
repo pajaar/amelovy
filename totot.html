@@ -55,7 +55,9 @@
       display: inline-block;
       margin-bottom: 10px;
     }
-
+img {
+width : 90%;
+}
     button {
       padding: 5px 10px;
       background-color: #28a745;
@@ -77,6 +79,8 @@
     <form id="myForm" onsubmit="event.preventDefault(); splitText();">
       <label for="inputText">Date parser</label><br><br>
       <input type="text" id="inputText" name="inputText" placeholder="sabtu, 19 mei 2029"><br>
+	  <button onclick="pasteText(event, 'inputText')" class="paste-button">Paste</button>
+<br><br>
       <input type="submit" value="Submit">
     </form>
     <div id="result">
@@ -90,6 +94,8 @@
     <form id="myForm2" onsubmit="event.preventDefault(); splitText2();">
       <label for="inputText2">Name parser</label><br><br>
       <input type="text" id="inputText2" name="inputText2" placeholder="pajar & mella"><br>
+	  <button onclick="pasteText(event, 'inputText2')" class="paste-button">Paste</button>
+<br><br>
       <input type="submit" value="Submit">
     </form>
     <div id="result2">
@@ -97,33 +103,75 @@
       <div id="output2"></div>
       <div id="newResult2"></div>
     </div>
+  </div>  
+  
+  <div id="main-container">
+    <form id="myForm3" onsubmit="event.preventDefault(); unduh();">
+      <label for="inputText3">Y2mate.com Fucker!</label><br><br>
+      <input type="text" id="inputText3" name="inputText3" placeholder="Link video"><br>
+	  <button onclick="pasteText(event, 'inputText3')" class="paste-button">Paste</button>
+<br><br>
+      <input type="submit" value="Submit">
+    </form>
+    <div id="result3">
+      <h3>Hasil:</h3>
+      <div id="output3"></div>
+      <div id="newResult3"></div>
+    </div>
   </div>
 
   <script>
+function pasteText(event, inputId) {
+  event.preventDefault(); // Mencegah submit form
+
+  const input = document.getElementById(inputId);
+  navigator.clipboard.readText().then(clipText => {
+    input.value = clipText;
+  }).catch(err => {
+    console.error('Failed to paste text: ', err);
+  });
+}
+
+ 
+function unduh() {
+    const youtubeLink = document.getElementById('inputText3').value;
+    const apiKey = 'PAJARISGOOD'; 
+
+    const apiUrl = `https://api.kimzzoffc.me/api/download/y2mate?url=${encodeURIComponent(youtubeLink)}&apikey=${apiKey}`;
+
+    const audioContainer = document.getElementById('result3');
+    audioContainer.innerHTML = ''; 
+
+    const audioElement = document.createElement('audio');
+    audioElement.src = apiUrl;
+    audioElement.controls = true; 
+    audioContainer.appendChild(audioElement); 
+}
+
 function splitText() {
   var text = document.getElementById("inputText").value;
-  var words = text.split(/[,\s]+/).filter(Boolean);
+var words = text.match(/\b[\w']+\b/g);
+
 
   var outputDiv = document.getElementById("output");
   outputDiv.innerHTML = "";
 
-words.forEach(function(word, index) {
-  var properCaseWord = word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+  words.forEach(function(word, index) {
+    var properCaseWord = word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
 
-  var copyButton = document.createElement("button");
-  copyButton.textContent = "Copy";
-  copyButton.onclick = function() {
-    copyToClipboard(properCaseWord);
-  };
+    var copyButton = document.createElement("button");
+    copyButton.textContent = "Copy";
+    copyButton.onclick = function() {
+      copyToClipboard(properCaseWord);
+    };
 
-  var span = document.createElement("span");
-  span.textContent = properCaseWord + " ";
+    var span = document.createElement("span");
+    span.textContent = properCaseWord + " ";
 
-  outputDiv.appendChild(copyButton); // Menambahkan tombol copy sebelum kata
-  outputDiv.appendChild(span);
-  outputDiv.appendChild(document.createElement("br"));
-});
-
+    outputDiv.appendChild(copyButton); // Menambahkan tombol copy sebelum kata
+    outputDiv.appendChild(span);
+    outputDiv.appendChild(document.createElement("br"));
+  });
 
   var newResultDiv = document.getElementById("newResult");
   newResultDiv.innerHTML = "";
@@ -158,19 +206,36 @@ words.forEach(function(word, index) {
   // Update the first result to fit the desired pattern
   finalResult = finalResult.replace(/\|/, "<br>");
 
-var resultSpan = document.createElement("span");
-var resultCopyButton = document.createElement("button");
-resultCopyButton.textContent = "Copy";
-resultCopyButton.onclick = function() {
-  copyToClipboard(finalResult);
-};
+  var resultSpan = document.createElement("span");
+  var resultCopyButton = document.createElement("button");
+  resultCopyButton.textContent = "Copy";
+  resultCopyButton.onclick = function() {
+    copyToClipboard(finalResult);
+  };
 
-resultSpan.textContent = finalResult;
+  resultSpan.textContent = finalResult;
 
-newResultDiv.appendChild(resultCopyButton);
-newResultDiv.appendChild(resultSpan);
+  newResultDiv.appendChild(resultCopyButton);
+  newResultDiv.appendChild(resultSpan);
 
+  var originalProperCase = text.replace(/\b[\w']+\b/g, function(match) {
+    return match.charAt(0).toUpperCase() + match.slice(1).toLowerCase();
+  });
+
+  var originalCopyButton = document.createElement("button");
+  originalCopyButton.textContent = "Copy";
+  originalCopyButton.onclick = function() {
+    copyToClipboard(originalProperCase);
+  };
+
+  var originalSpan = document.createElement("span");
+  originalSpan.textContent = originalProperCase;
+
+  newResultDiv.appendChild(document.createElement("br"));
+  newResultDiv.appendChild(originalCopyButton);
+  newResultDiv.appendChild(originalSpan);
 }
+
 
 function splitText2() {
   var text = document.getElementById("inputText2").value;
