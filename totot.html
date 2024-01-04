@@ -222,14 +222,20 @@ var words = text.match(/\b[\w']+\b/g);
     return match.charAt(0).toUpperCase() + match.slice(1).toLowerCase();
   });
 
+let textx = originalProperCase;
+if (textx.trim().slice(-1) === ',') {
+    textx = textx.trim().slice(0, -1);
+}
+
+
   var originalCopyButton = document.createElement("button");
   originalCopyButton.textContent = "Copy";
   originalCopyButton.onclick = function() {
-    copyToClipboard(originalProperCase);
+    copyToClipboard(textx);
   };
 
   var originalSpan = document.createElement("span");
-  originalSpan.textContent = originalProperCase;
+  originalSpan.textContent = textx;
 
   newResultDiv.appendChild(document.createElement("br"));
   newResultDiv.appendChild(originalCopyButton);
