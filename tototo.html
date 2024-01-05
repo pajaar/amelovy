@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fetch JSON</title>
+</head>
+<body>
+    <div id="result"></div>
+
+    <script>
+        // Fungsi untuk melakukan permintaan dan menampilkan respons JSON
+        function fetchJSON() {
+            const url = 'https://skizo.tech/api/y2mate?url=https://youtu.be/xO9-JS6V2zk?si=fN1EkE8t6CL5Bl9w&apikey=unscaryx';
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    // Menampilkan data JSON dalam elemen dengan id 'result'
+                    document.getElementById('result').innerText = JSON.stringify(data, null, 2);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('result').innerText = 'Error occurred. Please check the console.';
+                });
+        }
+
+        // Panggil fungsi fetchJSON saat halaman dimuat
+        fetchJSON();
+    </script>
+</body>
+</html>
